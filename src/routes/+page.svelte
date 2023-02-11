@@ -1,13 +1,12 @@
 <script>
-    import { goto } from '$app/navigation';
     import { onMount } from "svelte";
     import auth from "../authService";
-    import { isAuthenticated, user } from '$app/stores';
+    import { isAuthenticated, user } from '../store';
 
     let auth0Client;
 
     onMount(async () => {
-        auth0Client = await auth.getAuth0Client();
+        auth0Client = await auth.createClient();
         isAuthenticated.set(await auth0Client.isAuthenticated());
         user.set(await auth0Client.getUser());
     });

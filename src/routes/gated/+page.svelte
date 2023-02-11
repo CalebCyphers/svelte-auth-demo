@@ -1,6 +1,6 @@
 <script>
     import { goto } from '$app/navigation';
-    import { isAuthenticated } from '$app/stores';
+    import { isAuthenticated } from '../../store.js';
 
     $: if (!isAuthenticated) goto('/')
 </script>
