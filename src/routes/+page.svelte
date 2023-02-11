@@ -32,8 +32,11 @@
 </p>
 
 {#if $isAuthenticated}
+    <h2>Success!</h2>
     <p>You are logged in as {$user.name}</p>
     <button on:click={logout}>Log out</button>
+    
+    <a href="/gated">Go to gated page</a>
 {:else}
     <p>You are not logged in</p>
     <button on:click={login}>Log in</button>

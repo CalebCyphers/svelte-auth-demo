@@ -1,12 +1,16 @@
 <script>
-    import { goto } from '$app/navigation';
-    import { isAuthenticated } from '../../store.js';
-
-    $: if (!isAuthenticated) goto('/')
+    import { isAuthenticated } from "../../store";
 </script>
 
-<h1>Gated Page</h1>
+{#if $isAuthenticated}
+<h1>You can see the gated content!</h1>
 
-<p>You should not be able to see this page unless you are logged in!</p>
+<p>You should not be able to see this unless you are logged in!</p>
 
-<button on:click={goto('/')}>Return to homepage</button>
+<a href="/">Return to homepage</a>
+{:else}
+<h1>Woah there Bucko</h1>
+<h2>You are not logged in</h2>
+<a href="/">Return to homepage</a> 
+<p>You will be logged out automatically</p>
+{/if}
