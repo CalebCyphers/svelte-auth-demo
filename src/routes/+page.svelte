@@ -1,3 +1,26 @@
+<script>
+    import { goto } from '$app/navigation';
+    import { onMount } from "svelte";
+    import auth from "../authService";
+    import { isAuthenticated, user } from '$app/stores';
+
+    let auth0Client;
+
+    onMount(async () => {
+        auth0Client = await auth.getAuth0Client();
+        isAuthenticated.set(await auth0Client.isAuthenticated());
+        user.set(await auth0Client.getUser());
+    });
+
+    function login() {
+        auth.loginWithPopup(auth0Client);
+    }
+
+    function logout() {
+        auth.logout(auth0Client);
+    }
+</script>
+
 <h1>Hello World!</h1>
 <p>
 	This is a page built with SvelteKit. It's a single-page app, which means that the page loads
@@ -5,10 +28,16 @@
 </p>
 
 <p>
-	There is another page at /gated. It's a protected route, which means that you need to be logged in
+	There is another page at '<code>/gated</code>'. It's a protected route, which means that you need to be logged in
 	to see it.
 </p>
 
-<button id="login">Click to Login</button>
+{#if $isAuthenticated}
+    <p>You are logged in as {$user.name}</p>
+    <button on:click={logout}>Log out</button>
+{:else}
+    <p>You are not logged in</p>
+    <button on:click={login}>Log in</button>
+{/if}
 
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn more about SvelteKit.</p>
